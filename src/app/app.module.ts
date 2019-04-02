@@ -14,8 +14,12 @@ import { HistoryComponent } from './history/history.component';
 import { GameItemComponent } from './history/game-item/game-item.component';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from 'src/environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { LoginComponent } from './auth/login/login.component';
+import { SignupComponent } from './auth/signup/signup.component';
+import { AuthService } from './auth/auth.service';
 
 @NgModule({
   declarations: [
@@ -23,7 +27,9 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     HeaderComponent,
     MainComponent,
     HistoryComponent,
-    GameItemComponent
+    GameItemComponent,
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
@@ -32,10 +38,11 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule,
     AngularFirestoreModule,
+    AngularFireAuthModule,
     MDBBootstrapModule.forRoot(),
     HttpClientModule
   ],
-  providers: [GameService, GameStorageService],
+  providers: [GameService, GameStorageService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

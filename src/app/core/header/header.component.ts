@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GameStorageService } from 'src/app/shared/game-storage.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -8,14 +9,22 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  isAuthenticated = false;
-
-  constructor(private gameStorage: GameStorageService, private router: Router) { }
+  displayName = null;
+  constructor(private gameStorage: GameStorageService, private router: Router, private authService: AuthService) { }
 
   ngOnInit() {
   }
-  test() {
-    this.gameStorage.putGame();
+  checkAuthenticated() {
+    if (this.authService.isAuthenticated()) {
+      this.displayName = this.authService.displayName;
+      return false;
+    } else {
+      this.displayName = null;
+      return true;
+    }
+  }
+  onLogout() {
+    this.authService.logout();
   }
 
 }

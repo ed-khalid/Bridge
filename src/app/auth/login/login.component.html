@@ -1,0 +1,45 @@
+<div class="container-fluid">
+  <mdb-card>
+
+    <mdb-card-header class="indigo white-text text-center py-4">
+      <h5>
+        <strong>Sign in</strong>
+      </h5>
+    </mdb-card-header>
+  
+  
+    <!--Card content-->
+    <mdb-card-body class="px-lg-5 pt-0">
+  
+      <!-- Form -->
+      <form class="text-center" (ngSubmit)="onLogin(f)" style="color: #757575;" #f="ngForm">
+  
+        <!-- Email -->
+        <div class="md-form form-group">
+          <input type="email" id="email" name="email" class="form-control" mdbInput ngModel required>
+          <label for="email">E-mail</label>
+        </div>
+  
+        <!-- Password -->
+        <div class="md-form form-group">
+          <input type="password" id="password" name="password" class="form-control" mdbInput minlength="8" ngModel required>
+          <label for="password">Password</label>
+        </div>
+  
+        <!-- Sign in button -->
+        <button mdbBtn color="info" outline="true" rounded="true" block="true" [disabled]="!f.valid" class="my-4 waves-effect z-depth-0" mdbWavesEffect
+          type="submit">Sign in</button>
+  
+        <!-- Register -->
+        <p>Not a member?
+          <a routerLink="/signup">Register</a>
+        </p>
+  
+      </form>
+      <!-- Form -->
+  
+    </mdb-card-body>
+  
+  </mdb-card>
+  <!-- Material form login -->
+</div>

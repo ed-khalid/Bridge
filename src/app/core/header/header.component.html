@@ -13,19 +13,20 @@
                 <a [routerLink]="isAuthenticated ? ['/history'] : ['/history', 'guest']" class="nav-link waves-light" mdbWavesEffect>History</a>
             </li>
         </ul>
-        <ul class="navbar-nav navbar-right" hidden>
-            <li class="nav-item dropdown" dropdown>
-                <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
-                Basic dropdown<span class="caret"></span></a>
-                <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
-                    <a class="dropdown-item waves-light" mdbWavesEffect (click)="test()">Action</a>
-                    <a class="dropdown-item waves-light" mdbWavesEffect href="#">Another action</a>
-                    <a class="dropdown-item waves-light" mdbWavesEffect href="#">Something else here</a>
-                    <div class="divider dropdown-divider"></div>
-                    <a class="dropdown-item waves-light" mdbWavesEffect href="#">Separated link</a>
-                </div>
+        <ul class="navbar-nav navbar-right" *ngIf="checkAuthenticated()">
+            <li class="nav-item" routerLinkActive="active">
+                <a routerLink="/login" class="nav-link waves-light" mdbWavesEffect>Login</a>
             </li>
         </ul>
+        <ul class="navbar-nav navbar-right" *ngIf="!checkAuthenticated()">
+            <li class="nav-item">
+                <a class="nav-link">{{ displayName }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link waves-light" (click)="onLogout()" mdbWavesEffect>Logout</a>
+            </li>
+        </ul>
+        
     </links>
 
 

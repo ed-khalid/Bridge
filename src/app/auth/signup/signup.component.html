@@ -1,0 +1,59 @@
+<div class="container-fluid">
+  <mdb-card>
+
+    <mdb-card-header class="indigo white-text text-center py-4">
+      <h5>
+        <strong>Sign up</strong>
+      </h5>
+    </mdb-card-header>
+  
+    <!--Card content-->
+    <mdb-card-body class="px-lg-5 pt-0">
+  
+      <!-- Form -->
+      <form class="text-center" style="color: #757575;" (ngSubmit)="onSignup(f)" #f="ngForm">
+  
+        <div class="form-row">
+          <div class="col">
+            <!-- Display Name -->
+            <div class="md-form">
+              <input type="text" id="fname" name="fname" class="form-control" mdbInput ngModel required>
+              <label for="fname">Display Name</label>
+            </div>
+          </div>
+        </div>
+  
+        <!-- E-mail -->
+        <div class="md-form mt-0">
+          <input type="email" id="email" name="email" class="form-control" mdbInput ngModel required>
+          <label for="email">E-mail</label>
+        </div>
+  
+        <!-- Password -->
+        <div class="md-form">
+          <input type="password" id="password" name="password" class="form-control" aria-describedby="materialRegisterFormPasswordHelpBlock"
+            mdbInput minlength="8" ngModel required>
+          <label for="password">Password</label>
+          <small id="materialRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4">
+            At least 8 characters
+          </small>
+        </div>
+
+        <!-- password confirmation -->
+        <div class="md-form">
+          <input type="password" id="password2" name="password2" class="form-control" mdbInput minlength="8" [pattern]="f.value['password']" required ngModel>
+          <label for="password2">Confirm Password</label>
+        </div>
+  
+        <!-- Sign up button -->
+        <button mdbBtn color="info" outline="true" rounded="true" block="true" class="my-4 waves-effect z-depth-0" mdbWavesEffect
+          type="submit" [disabled]="!f.valid">Sign Up</button>
+  
+      </form>
+      <!-- Form -->
+  
+    </mdb-card-body>
+  
+  </mdb-card>
+  <!-- Material form register -->
+</div>
