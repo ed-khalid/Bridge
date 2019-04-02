@@ -1,0 +1,141 @@
+<div mdbModal #namesModal="mdbModal" class="modal fade justify-content-center" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title w-100 text-center">Teams Names</h4>
+      </div>
+      <div class="modal-body justify-content-center input-group">
+        <input mdbInput type="text" class="text-center m-auto" placeholder="Team1 Name" #team1NameInput>
+        <br>
+        <input mdbInput type="text" class="text-center m-auto" placeholder="Team2 Name" #team2NameInput>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" mdbBtn color="secondary" class="waves-light" aria-label="Close" (click)="namesModal.hide()" mdbWavesEffect>Close</button>
+        <button type="button" mdbBtn color="primary" class="waves-light" aria-label="Save" (click)="setTeamsNames(namesModal, team1NameInput.value, team2NameInput.value)" mdbWavesEffect>Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div style="text-align: center; position: relative;">
+    <button type="button" mdbBtn color="primary" class="waves-light" (click)="namesModal.show()" mdbWavesEffect>Edit Team Names</button>
+  </div>
+
+  <mdb-card>
+    <mdb-card-header class="indigo" style="text-align: center;"><label style="color: white;">Bonus</label></mdb-card-header>
+    <mdb-card-body>
+  
+      <div class="container">
+        <div class="row">
+          <div class="bonus-view">
+            <div class="bonus-table">
+              <ul class="list-group bonus-input m-auto">
+                <li class="list-group-item" [ngClass]="team1Danger ? 'btn-danger' : ''">{{ team1Name }}</li>
+                <li class="list-group-item" *ngFor="let team1b of game.team1.bonus">{{ team1b }}</li>
+              </ul>
+              <ul class="list-group bonus-input m-auto">
+                <li class="list-group-item" [ngClass]="team2Danger ? 'btn-danger' : ''">{{ team2Name }}</li>
+                <li class="list-group-item" *ngFor="let team2b of game.team2.bonus">{{ team2b }}</li>
+              </ul>
+            </div>
+            <div class="row">
+              <form class="md-form" (ngSubmit)="onAddBonus(fb)" #fb="ngForm">
+                <div class="bonus-table">
+                  <div class="form-group bonus-input">
+                    <input mdbInput name="team1ba" id="team1ba" type="number" placeholder="Amount" ngModel> 
+                    <input mdbInput name="team2ba" id="team2ba" type="number" placeholder="Amount" ngModel>
+                    <div class="col-sm-12 btn-div">
+                      <button class="btn btn-lg btn-primary" type="submit">Add</button>
+                    </div>
+                  </div>  
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+    </mdb-card-body>
+  </mdb-card>
+
+</div>
+
+
+<div class="container">
+
+  <mdb-card>
+    <mdb-card-header class="indigo" style="text-align: center;"><label style="color: white;">Score | Games Played: {{ gamesPlayed }}</label></mdb-card-header>
+    <mdb-card-body>
+  
+      <div class="container">
+        <div class="row">
+          <div class="bonus-view">
+            <div class="bonus-table">
+              <ul class="list-group bonus-input m-auto">
+                <li class="list-group-item" [ngClass]="team1Danger ? 'btn-danger' : ''">{{ team1Name }}</li>
+                <li class="list-group-item">Wins: {{ game.team1.gamesWon }}</li>
+                <li class="list-group-item" *ngFor="let team1s of game.team1.score">{{ team1s }}</li>
+              </ul>
+              <ul class="list-group bonus-input m-auto">
+                <li class="list-group-item" [ngClass]="team2Danger ? 'btn-danger' : ''">{{ team2Name }}</li>
+                <li class="list-group-item">Wins: {{ game.team2.gamesWon }}</li>
+                <li class="list-group-item" *ngFor="let team2s of game.team2.score">{{ team2s }}</li>
+              </ul>
+            </div>
+            <div class="row">
+              <form class="md-form" (ngSubmit)="onAddScore(fs)" #fs="ngForm">
+                <div class="bonus-table">
+                  <div class="form-group bonus-input">
+                    <input mdbInput name="team1sa" id="team1sa" type="number" placeholder="Amount" ngModel> 
+                    <input mdbInput name="team2sa" id="team2sa" type="number" placeholder="Amount" ngModel>
+                    <div class="col-sm-12 btn-div">
+                      <button class="btn btn-lg btn-primary" type="submit">Add</button>
+                    </div>
+                  </div>  
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+    </mdb-card-body>
+  </mdb-card>
+  
+</div>
+
+<div class="container">
+
+  <mdb-card>
+    <mdb-card-header class="indigo" style="text-align: center;"><label style="color: white;">Total</label></mdb-card-header>
+    <mdb-card-body>
+  
+      <div class="container">
+        <div class="row">
+          <div class="bonus-view">
+            <div class="bonus-table">
+              <ul class="list-group bonus-input m-auto">
+                <li class="list-group-item" [ngClass]="team1Danger ? 'btn-danger' : ''">{{ team1Name }}</li>
+                <li class="list-group-item">{{ getTotal().team1 }}</li>
+              </ul>
+              <ul class="list-group bonus-input m-auto">
+                <li class="list-group-item" [ngClass]="team2Danger ? 'btn-danger' : ''">{{ team2Name }}</li>
+                <li class="list-group-item">{{ getTotal().team2 }}</li>
+              </ul>
+            </div>
+            <div class="col-sm-12 btn-div">
+              <button class="btn btn-lg btn-danger" (click)="resetGame()">Reset</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+    </mdb-card-body>
+  </mdb-card>
+    
+</div>
+
+
+
+

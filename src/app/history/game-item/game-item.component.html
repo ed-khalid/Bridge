@@ -1,0 +1,24 @@
+
+<div class="container justify-content-center" *ngIf="index !== 0">
+
+  <mdb-card class="w-auto m-2">
+    <mdb-card-header class="indigo" style="text-align: center;"><label style="color: white;">Game</label></mdb-card-header>
+    <mdb-card-body>
+  
+      <div class="container">
+        <div class="row">
+          <ul class="list-unstyled">
+            <li>Winner: {{ winner }}</li>
+            <li>Total Games Played: {{ gamesPlayed }}</li>
+            <li>{{ game.team1.name }} Total: {{ team1Totals }}</li>
+            <li>{{ game.team1.name }} Win Ratio: {{ team1WinRatio }}</li>
+            <li>{{ game.team2.name }} Total: {{ team2Totals }}</li>
+            <li>{{ game.team2.name }} Win Ratio: {{ team2WinRatio }}</li>
+          </ul>
+        </div>
+      </div>
+  
+    </mdb-card-body>
+  </mdb-card>
+      
+</div>
