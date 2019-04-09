@@ -33,6 +33,153 @@ export class GameService {
         this.game.team2.gamesWon = t2GamesWon;
         this.gameChanged.next(this.game);
     }
+    addWin(team = 'team1', suit = 'clubs', bet = 7, wonStrikes = 7, double = false, doubleDouble = false, vulnerable = false) {
+        // below the line score
+        let score = 0;
+        if (doubleDouble && double) {
+            if (suit === 'nt') {
+                score = 160 + ((wonStrikes - bet) * 120);
+            }
+            if (suit === 'spades' || suit === 'hearts') {
+                score = 120 + ((wonStrikes - bet) * 120);
+            }
+            if (suit === 'clubs' || suit === 'diamonds') {
+                score = 80 + ((wonStrikes - bet) * 80);
+            }
+        }
+        if (double === true && doubleDouble === false) {
+            if (suit === 'nt') {
+                score = 80 + ((wonStrikes - bet) * 60);
+            }
+            if (suit === 'spades' || suit === 'hearts') {
+                score = 60 + ((wonStrikes - bet) * 60);
+            }
+            if (suit === 'clubs' || suit === 'diamonds') {
+                score = 40 + ((wonStrikes - bet) * 40);
+            }
+        }
+        if (double === false) {
+            if (suit === 'nt') {
+                score = 40 + ((wonStrikes - bet) * 30);
+            }
+            if (suit === 'spades' || suit === 'hearts') {
+                score = 30 + ((wonStrikes - bet) * 30);
+            }
+            if (suit === 'clubs' || suit === 'diamonds') {
+                score = 20 + ((wonStrikes - bet) * 20);
+            }
+        }
+        // above the line
+        let bonus = 0;
+        if ((wonStrikes - bet) > 0) {
+            if (doubleDouble && vulnerable) {
+                bonus = 400 + 100; // doubleDouble bonus 100
+            }
+            if (doubleDouble && vulnerable === false) {
+                bonus = 200 + 100; // doubleDouble bonus 100
+            }
+            if (double && doubleDouble === false && vulnerable) {
+                bonus = 200 + 50; // double bonus 50
+            }
+            if (double && doubleDouble === false && vulnerable === false) {
+                bonus = 100 + 50; // double bonus 50
+            }
+            if (double === false) {
+                if (suit === 'nt') {
+                    bonus = 30 + ((wonStrikes - bet) * 30);
+                }
+                if (suit === 'spades' || suit === 'hearts') {
+                    bonus = 30 + ((wonStrikes - bet) * 30);
+                }
+                if (suit === 'clubs' || suit === 'diamonds') {
+                    bonus = 20 + ((wonStrikes - bet) * 20);
+                }
+            }
+        }
+        // adding scores and bonuses
+        if (team === 'team1') {
+            this.addScore(score, 0);
+            this.addBonus(bonus, 0);
+        } else {
+            this.addScore(0, score);
+            this.addBonus(0, bonus);
+        }
+        this.addGamePlayed(this.game.gamesPlayed + 1);
+    }
+    notWinPenalty(lostTeam = 'team1', bet = 7, losingTeamStrikes = 5, double = false, doubleDouble = false, vulnerable = false) {
+        // above the line
+        let bonus = 0;
+        const lostStrikes = bet - losingTeamStrikes;
+        if (vulnerable && doubleDouble) {
+            if (lostStrikes === 1) {
+                bonus = 400;
+            }
+            if (lostStrikes === 2) {
+                bonus = 600 + 400;
+            }
+            if (lostStrikes === 3) {
+                bonus = 600 + 600 + 400;
+            }
+            if (lostStrikes > 3) {
+                bonus = 1600 + (600 * (lostStrikes - 3));
+            }
+        }
+        if (vulnerable && doubleDouble === false && double) {
+            if (lostStrikes === 1) {
+                bonus = 200;
+            }
+            if (lostStrikes === 2) {
+                bonus = 300 + 200;
+            }
+            if (lostStrikes === 3) {
+                bonus = 300 + 300 + 200;
+            }
+            if (lostStrikes > 3) {
+                bonus = 800 + (300 * (lostStrikes - 3));
+            }
+        }
+        if (vulnerable && double === false && doubleDouble === false) {
+            bonus = 100 * lostStrikes;
+        }
+        if (vulnerable === false && doubleDouble) {
+            if (lostStrikes === 1) {
+                bonus = 200;
+            }
+            if (lostStrikes === 2) {
+                bonus = 400 + 200;
+            }
+            if (lostStrikes === 3) {
+                bonus = 400 + 400 + 200;
+            }
+            if (lostStrikes > 3) {
+                bonus = 1000 + (600 * (lostStrikes - 3));
+            }
+        }
+        if (vulnerable === false && doubleDouble === false && double) {
+            if (lostStrikes === 1) {
+                bonus = 100;
+            }
+            if (lostStrikes === 2) {
+                bonus = 200 + 100;
+            }
+            if (lostStrikes === 3) {
+                bonus = 200 + 200 + 100;
+            }
+            if (lostStrikes > 3) {
+                bonus = 500 + (300 * (lostStrikes - 3));
+            }
+        }
+        if (vulnerable === false && doubleDouble === false && double === false) {
+            bonus = 50 * lostStrikes;
+        }
+        // adding bonuses
+        if (lostTeam === 'team1') {
+            this.addBonus(0, bonus);
+        } else {
+            this.addBonus(bonus, 0);
+        }
+        this.addGamePlayed(this.game.gamesPlayed + 1);
+    }
     addGamePlayed(gamesPlayed: number) {
         this.game.gamesPlayed = gamesPlayed;
         this.gameChanged.next(this.game);
