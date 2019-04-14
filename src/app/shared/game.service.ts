@@ -38,35 +38,35 @@ export class GameService {
         let score = 0;
         if (doubleDouble && double) {
             if (suit === 'nt') {
-                score = 160 + ((wonStrikes - 7) * 120);
+                score = 160 + ((bet - 7) * 120);
             }
             if (suit === 'spades' || suit === 'hearts') {
-                score = 120 + ((wonStrikes - 7) * 120);
+                score = 120 + ((bet - 7) * 120);
             }
             if (suit === 'clubs' || suit === 'diamonds') {
-                score = 80 + ((wonStrikes - 7) * 80);
+                score = 80 + ((bet - 7) * 80);
             }
         }
         if (double === true && doubleDouble === false) {
             if (suit === 'nt') {
-                score = 80 + ((wonStrikes - 7) * 60);
+                score = 80 + ((bet - 7) * 60);
             }
             if (suit === 'spades' || suit === 'hearts') {
-                score = 60 + ((wonStrikes - 7) * 60);
+                score = 60 + ((bet - 7) * 60);
             }
             if (suit === 'clubs' || suit === 'diamonds') {
-                score = 40 + ((wonStrikes - 7) * 40);
+                score = 40 + ((bet - 7) * 40);
             }
         }
         if (double === false) {
             if (suit === 'nt') {
-                score = 40 + ((wonStrikes - 7) * 30);
+                score = 40 + ((bet - 7) * 30);
             }
             if (suit === 'spades' || suit === 'hearts') {
-                score = 30 + ((wonStrikes - 7) * 30);
+                score = 30 + ((bet - 7) * 30);
             }
             if (suit === 'clubs' || suit === 'diamonds') {
-                score = 20 + ((wonStrikes - 7) * 20);
+                score = 20 + ((bet - 7) * 20);
             }
         }
         // above the line
