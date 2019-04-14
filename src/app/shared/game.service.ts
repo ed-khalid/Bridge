@@ -38,35 +38,35 @@ export class GameService {
         let score = 0;
         if (doubleDouble && double) {
             if (suit === 'nt') {
-                score = 160 + ((wonStrikes - bet) * 120);
+                score = 160 + ((wonStrikes - 7) * 120);
             }
             if (suit === 'spades' || suit === 'hearts') {
-                score = 120 + ((wonStrikes - bet) * 120);
+                score = 120 + ((wonStrikes - 7) * 120);
             }
             if (suit === 'clubs' || suit === 'diamonds') {
-                score = 80 + ((wonStrikes - bet) * 80);
+                score = 80 + ((wonStrikes - 7) * 80);
             }
         }
         if (double === true && doubleDouble === false) {
             if (suit === 'nt') {
-                score = 80 + ((wonStrikes - bet) * 60);
+                score = 80 + ((wonStrikes - 7) * 60);
             }
             if (suit === 'spades' || suit === 'hearts') {
-                score = 60 + ((wonStrikes - bet) * 60);
+                score = 60 + ((wonStrikes - 7) * 60);
             }
             if (suit === 'clubs' || suit === 'diamonds') {
-                score = 40 + ((wonStrikes - bet) * 40);
+                score = 40 + ((wonStrikes - 7) * 40);
             }
         }
         if (double === false) {
             if (suit === 'nt') {
-                score = 40 + ((wonStrikes - bet) * 30);
+                score = 40 + ((wonStrikes - 7) * 30);
             }
             if (suit === 'spades' || suit === 'hearts') {
-                score = 30 + ((wonStrikes - bet) * 30);
+                score = 30 + ((wonStrikes - 7) * 30);
             }
             if (suit === 'clubs' || suit === 'diamonds') {
-                score = 20 + ((wonStrikes - bet) * 20);
+                score = 20 + ((wonStrikes - 7) * 20);
             }
         }
         // above the line
@@ -86,13 +86,13 @@ export class GameService {
             }
             if (double === false) {
                 if (suit === 'nt') {
-                    bonus = 30 + ((wonStrikes - bet) * 30);
+                    bonus = ((wonStrikes - bet) * 30);
                 }
                 if (suit === 'spades' || suit === 'hearts') {
-                    bonus = 30 + ((wonStrikes - bet) * 30);
+                    bonus = ((wonStrikes - bet) * 30);
                 }
                 if (suit === 'clubs' || suit === 'diamonds') {
-                    bonus = 20 + ((wonStrikes - bet) * 20);
+                    bonus = ((wonStrikes - bet) * 20);
                 }
             }
         }

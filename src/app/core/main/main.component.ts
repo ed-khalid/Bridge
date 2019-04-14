@@ -4,6 +4,7 @@ import { GameService } from '../../shared/game.service';
 import { Subscription } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { MDBModalRef } from 'angular-bootstrap-md';
+import { Options } from 'ng5-slider';
 
 @Component({
   selector: 'app-main',
@@ -20,6 +21,15 @@ export class MainComponent implements OnInit, OnDestroy {
   gamesPlayed = 0;
   isCheckingGame = false;
   isResetting = false;
+  suit = 'clubs';
+  doubleState = 'none';
+  winningTeam = '';
+  otherTeamVulnerable = false;
+  options: Options = {
+    floor: 7,
+    ceil: 13,
+    showTicks: true
+  };
 
   constructor(private gameService: GameService) { }
 
@@ -32,6 +42,37 @@ export class MainComponent implements OnInit, OnDestroy {
     this.team1Name = this.game.team1.name;
     this.team2Name = this.game.team2.name;
     this.isDanger();
+  }
+
+  changeSuit(suit: string) {
+    this.suit = suit;
+  }
+  changeDoubleState(state: string) {
+    this.doubleState = state;
+  }
+  changeWinningTeam(team: string) {
+    if (team === 'team1') {
+      this.winningTeam = this.team1Name;
+    }
+    if (team === 'team2') {
+      this.winningTeam = this.team2Name;
+    }
+  }
+  onAddScoresAndBonuses(modal: MDBModalRef, f: NgForm) {
+    modal.hide();
+    console.log(f);
+    let winningTeam = f.value['winningTeam'];
+    winningTeam === this.team1Name ? winningTeam = 'team1' : winningTeam = 'team2';
+    const suit = f.value['suit'];
+    const bet = +f.value['bet'];
+    const wonBets = +f.value['wonBets'];
+    const doubleState = f.value['doubleState'];
+    let double = false;
+    let doubleDouble = false;
+    doubleState === 'doubleDouble' ? doubleDouble = true : doubleDouble = false;
+    doubleState === 'double' ? double = true : double = false;
+    const otherTeamVulnerable = f.value['otherTeamVulnerable'];
+    this.gameService.addWin(winningTeam, suit, bet, wonBets, double, doubleDouble, otherTeamVulnerable);
   }
 
   isDanger() {

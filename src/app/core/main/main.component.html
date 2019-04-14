@@ -2,7 +2,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title w-100 text-center">Teams Names</h4>
+        <h4 class="modal-title w-100 text-center">Teams Names <span><img src="../../../assets/spades.png" class="img-fluid" style="height: 32px; width: 32px;" alt="Spades"></span></h4>
       </div>
       <div class="modal-body justify-content-center input-group">
         <input mdbInput type="text" class="text-center m-auto" placeholder="Team1 Name" #team1NameInput>
@@ -17,9 +17,93 @@
   </div>
 </div>
 
+<div mdbModal #addWinModal="mdbModal" class="modal fade justify-content-center" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title w-100 text-center">Add Scores And Bonuses</h4>
+      </div>
+      <div class="modal-body justify-content-center">
+        <form class="md-form" (ngSubmit)="onAddScoresAndBonuses(addWinModal, addScoresAndBonuses)" #addScoresAndBonuses="ngForm">
+          <h5>Win for team: {{ winningTeam }}</h5>
+          <div class="form-check form-check-inline">
+            <a type="button" mdbBtn color="primary" class="waves-light" (click)="changeWinningTeam('team1')" mdbWavesEffect>{{ team1Name }}</a>
+          </div>
+          <div class="form-check form-check-inline">
+            <a type="button" mdbBtn color="primary" class="waves-light" (click)="changeWinningTeam('team2')" mdbWavesEffect>{{ team2Name }}</a>
+          </div>
+          <input type="text" name="winningTeam" id="winningTeam" [(ngModel)]="winningTeam" hidden required>
+          <hr>
+          <h5>Suit: {{ suit }}</h5>
+          <div class="form-check form-check-inline">
+            <a mdbBtn class="btn-floating rounded-circle" (click)="changeSuit('clubs')"><img class="img-fluid clubs-icon" style="height: 32px; width: 32px;" src="../../../assets/clubs.png" alt="clubs"></a>
+          </div>
+          <div class="form-check form-check-inline">
+            <a mdbBtn class="btn-floating rounded-circle" (click)="changeSuit('diamonds')"><img class="img-fluid clubs-icon" style="height: 32px; width: 32px;" src="../../../assets/diamonds.png" alt="diamonds"></a>
+          </div>
+          <div class="form-check form-check-inline">
+            <a mdbBtn class="btn-floating rounded-circle" (click)="changeSuit('hearts')"><img class="img-fluid clubs-icon" style="height: 32px; width: 32px;" src="../../../assets/hearts.png" alt="hearts"></a>
+          </div>
+          <div class="form-check form-check-inline">
+            <a mdbBtn class="btn-floating rounded-circle" (click)="changeSuit('spades')"><img class="img-fluid clubs-icon" style="height: 32px; width: 32px;" src="../../../assets/spades.png" alt="spades"></a>
+          </div>
+          <input type="text" id="suit" name="suit" hidden [(ngModel)]="suit">
+          <!-- bet: 7 8 9 10 11 12 13 use slider
+          won bets: 7 8 9 10 11 12 13 use slider
+          none double doubledouble radio
+          vulnerable or non-vulnerable radio
+          button: add -->
+          <hr>
+          <div class="form-group justify-content-start">
+            <h6>Bets</h6>
+          </div>
+          <div class="form-group">
+            <ng5-slider id="bet" name="bet" value="7" [options]="options" ngModel></ng5-slider>
+          </div>
+          <hr>
+          <div class="form-group justify-content-start">
+            <h6>Bets Won</h6>
+          </div>
+          <div class="form-group">
+            <ng5-slider id="wonBets" name="wonBets" value=7 [options]="options" ngModel></ng5-slider>
+          </div>
+          <hr>
+          <h6>Double State: {{ doubleState }}</h6>
+          <div class="form-check form-check-inline">
+            <a type="button" mdbBtn color="primary" class="waves-light" aria-label="None" (click)="changeDoubleState('none')" mdbWavesEffect>None</a>
+          </div>
+          <div class="form-check form-check-inline">
+            <a type="button" mdbBtn color="primary" class="waves-light" aria-label="Double" (click)="changeDoubleState('double')" mdbWavesEffect>Double</a>
+          </div>
+          <div class="form-check form-check-inline">
+            <a type="button" mdbBtn color="primary" class="waves-light" aria-label="Double Double" (click)="changeDoubleState('doubleDouble')" mdbWavesEffect>Double Double</a>
+          </div>
+          <input type="text" id="doubleState" name="doubleState" [(ngModel)]="doubleState" hidden>
+          <hr>
+          <h6>Is the other team vulnerable? {{ otherTeamVulnerable }}</h6>
+          <div class="form-check form-check-inline">
+            <a type="button" mdbBtn color="primary" class="waves-light" aria-label="Not Vulnerbale" (click)="otherTeamVulnerable = false" mdbWavesEffect>No</a>
+          </div>
+          <div class="form-check form-check-inline">
+            <a type="button" mdbBtn color="primary" class="waves-light" aria-label="Vulnerbale" (click)="otherTeamVulnerable = true" mdbWavesEffect>Yes</a>
+          </div>
+          <input type="text" name="otherTeamVulnerable" id="otherTeamVulnerable" [(ngModel)]="otherTeamVulnerable" hidden>
+          <hr>
+          <div class="modal-footer justify-content-center">
+            <button class="btn btn-primary" type="submit" [disabled]="!addScoresAndBonuses.valid">Add</button>
+            <button type="button" mdbBtn color="secondary" class="waves-light" aria-label="Close" (click)="addWinModal.hide()" mdbWavesEffect>Close</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="container-fluid">
   <div style="text-align: center; position: relative;">
     <button type="button" mdbBtn color="primary" class="waves-light" (click)="namesModal.show()" mdbWavesEffect>Edit Team Names</button>
+    <button type="button" mdbBtn color="primary" class="waves-light" (click)="addWinModal.show()" mdbWavesEffect>Add Win</button>
   </div>
 
   <mdb-card>

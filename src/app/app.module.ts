@@ -20,6 +20,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { AuthService } from './auth/auth.service';
+import { Ng5SliderModule } from 'ng5-slider';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { AuthService } from './auth/auth.service';
     AngularFirestoreModule,
     AngularFireAuthModule,
     MDBBootstrapModule.forRoot(),
+    Ng5SliderModule,
     HttpClientModule
   ],
   providers: [GameService, GameStorageService, AuthService],
