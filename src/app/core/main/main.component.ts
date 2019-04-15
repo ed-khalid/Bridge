@@ -23,11 +23,24 @@ export class MainComponent implements OnInit, OnDestroy {
   isResetting = false;
   suit = 'clubs';
   doubleState = 'none';
+  losingDoubleState = 'none';
   winningTeam = '';
+  losingTeam = '';
   otherTeamVulnerable = false;
-  options: Options = {
+  losingTeamVulnerable = false;
+  WinRangeOptions: Options = {
     floor: 7,
     ceil: 13,
+    showTicks: true
+  };
+  betRangeOptions: Options = {
+    floor: 7,
+    ceil: 13,
+    showTicks: true
+  };
+  wonStrikesRangeOptions: Options = {
+    floor: 0,
+    ceil: 12,
     showTicks: true
   };
 
@@ -36,6 +49,7 @@ export class MainComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscription = this.gameService.gameChanged.subscribe((game: Game) => {
       this.game = game;
+      this.gamesPlayed = game.gamesPlayed;
     });
     this.game = this.gameService.getGame();
     this.gamesPlayed = this.game.gamesPlayed;
@@ -50,12 +64,23 @@ export class MainComponent implements OnInit, OnDestroy {
   changeDoubleState(state: string) {
     this.doubleState = state;
   }
+  changeLosingDoubleState(state: string) {
+    this.losingDoubleState = state;
+  }
   changeWinningTeam(team: string) {
     if (team === 'team1') {
       this.winningTeam = this.team1Name;
     }
     if (team === 'team2') {
       this.winningTeam = this.team2Name;
+    }
+  }
+  changeLosingTeam(team: string) {
+    if (team === 'team1') {
+      this.losingTeam = this.team1Name;
+    }
+    if (team === 'team2') {
+      this.losingTeam = this.team2Name;
     }
   }
   onAddScoresAndBonuses(modal: MDBModalRef, f: NgForm) {
@@ -73,6 +98,22 @@ export class MainComponent implements OnInit, OnDestroy {
     doubleState === 'double' ? double = true : double = false;
     const otherTeamVulnerable = f.value['otherTeamVulnerable'];
     this.gameService.addWin(winningTeam, suit, bet, wonBets, double, doubleDouble, otherTeamVulnerable);
+    this.isDanger();
+  }
+  onAddLoss(modal: MDBModalRef, f: NgForm) {
+    modal.hide();
+    console.log(f);
+    let losingTeam = f.value['losingTeam'];
+    losingTeam === this.team1Name ? losingTeam = 'team1' : losingTeam = 'team2';
+    const bet = +f.value['betL'];
+    const wonBets = +f.value['wonBets'];
+    const doubleState = f.value['losingDoubleState'];
+    let double = false;
+    let doubleDouble = false;
+    doubleState === 'doubleDouble' ? doubleDouble = true : doubleDouble = false;
+    doubleState === 'double' ? double = true : double = false;
+    const losingTeamVulnerable = f.value['losingTeamVulnerable'];
+    this.gameService.notWinPenalty(losingTeam, bet, wonBets, double, doubleDouble, losingTeamVulnerable);
   }
 
   isDanger() {
@@ -130,6 +171,13 @@ export class MainComponent implements OnInit, OnDestroy {
       this.team2Danger = false;
       this.gamesPlayed = 0;
       this.isResetting = true;
+      this.suit = 'clubs';
+      this.doubleState = 'none';
+      this.losingDoubleState = 'none';
+      this.winningTeam = '';
+      this.losingTeam = '';
+      this.otherTeamVulnerable = false;
+      this.losingTeamVulnerable = false;
       setTimeout(() => this.isResetting = false, 6000);
     }
   }

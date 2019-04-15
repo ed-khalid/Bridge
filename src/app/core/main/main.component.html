@@ -58,14 +58,14 @@
             <h6>Bets</h6>
           </div>
           <div class="form-group">
-            <ng5-slider id="bet" name="bet" value="7" [options]="options" ngModel></ng5-slider>
+            <ng5-slider id="bet" name="bet" value="7" [options]="WinRangeOptions" ngModel></ng5-slider>
           </div>
           <hr>
           <div class="form-group justify-content-start">
             <h6>Bets Won</h6>
           </div>
           <div class="form-group">
-            <ng5-slider id="wonBets" name="wonBets" value=7 [options]="options" ngModel></ng5-slider>
+            <ng5-slider id="wonBets" name="wonBets" value=7 [options]="WinRangeOptions" ngModel></ng5-slider>
           </div>
           <hr>
           <h6>Double State: {{ doubleState }}</h6>
@@ -100,10 +100,74 @@
   </div>
 </div>
 
+<div mdbModal #addLossModal="mdbModal" class="modal fade justify-content-center" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title w-100 text-center">Add Loss</h4>
+      </div>
+      <div class="modal-body justify-content-center">
+        <form class="md-form" (ngSubmit)="onAddLoss(addLossModal, addLossForm)" #addLossForm="ngForm">
+          <h5>Lost Team: {{ losingTeam }}</h5>
+          <div class="form-check form-check-inline">
+            <a type="button" mdbBtn color="primary" class="waves-light" (click)="changeLosingTeam('team1')" mdbWavesEffect>{{ team1Name }}</a>
+          </div>
+          <div class="form-check form-check-inline">
+            <a type="button" mdbBtn color="primary" class="waves-light" (click)="changeLosingTeam('team2')" mdbWavesEffect>{{ team2Name }}</a>
+          </div>
+          <input type="text" name="losingTeam" id="losingTeam" [(ngModel)]="losingTeam" hidden required>
+          <hr>
+          <div class="form-group justify-content-start">
+            <h6>Bets</h6>
+          </div>
+          <div class="form-group">
+            <ng5-slider id="betL" name="betL" value="7" [options]="betRangeOptions" ngModel></ng5-slider>
+          </div>
+          <hr>
+          <div class="form-group justify-content-start">
+            <h6>Bets Won</h6>
+          </div>
+          <div class="form-group">
+            <ng5-slider id="wonBets" name="wonBets" value=7 [options]="wonStrikesRangeOptions" ngModel></ng5-slider>
+          </div>
+          <hr>
+          <h6>Double State: {{ losingDoubleState }}</h6>
+          <div class="form-check form-check-inline">
+            <a type="button" mdbBtn color="primary" class="waves-light" aria-label="None" (click)="changeLosingDoubleState('none')" mdbWavesEffect>None</a>
+          </div>
+          <div class="form-check form-check-inline">
+            <a type="button" mdbBtn color="primary" class="waves-light" aria-label="Double" (click)="changeLosingDoubleState('double')" mdbWavesEffect>Double</a>
+          </div>
+          <div class="form-check form-check-inline">
+            <a type="button" mdbBtn color="primary" class="waves-light" aria-label="Double Double" (click)="changeLosingDoubleState('doubleDouble')" mdbWavesEffect>Double Double</a>
+          </div>
+          <input type="text" id="losingDoubleState" name="losingDoubleState" [(ngModel)]="losingDoubleState" hidden>
+          <hr>
+          <h6>Is the losing team vulnerable? {{ losingTeamVulnerable }}</h6>
+          <div class="form-check form-check-inline">
+            <a type="button" mdbBtn color="primary" class="waves-light" aria-label="Not Vulnerbale" (click)="losingTeamVulnerable = false" mdbWavesEffect>No</a>
+          </div>
+          <div class="form-check form-check-inline">
+            <a type="button" mdbBtn color="primary" class="waves-light" aria-label="Vulnerbale" (click)="losingTeamVulnerable = true" mdbWavesEffect>Yes</a>
+          </div>
+          <input type="text" name="losingTeamVulnerable" id="losingTeamVulnerable" [(ngModel)]="losingTeamVulnerable" hidden>
+          <hr>
+          <div class="modal-footer justify-content-center">
+            <button class="btn btn-primary" type="submit" [disabled]="!addLossForm.valid">Add</button>
+            <button type="button" mdbBtn color="secondary" class="waves-light" aria-label="Close" (click)="addLossModal.hide()" mdbWavesEffect>Close</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="container-fluid">
   <div style="text-align: center; position: relative;">
     <button type="button" mdbBtn color="primary" class="waves-light" (click)="namesModal.show()" mdbWavesEffect>Edit Team Names</button>
     <button type="button" mdbBtn color="primary" class="waves-light" (click)="addWinModal.show()" mdbWavesEffect>Add Win</button>
+    <button type="button" mdbBtn color="primary" class="waves-light" (click)="addLossModal.show()" mdbWavesEffect>Add Loss</button>
   </div>
 
   <mdb-card>
