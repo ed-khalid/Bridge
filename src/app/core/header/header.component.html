@@ -10,7 +10,7 @@
                 <a routerLink="/" class="nav-link waves-light" mdbWavesEffect>Home</a>
             </li>
             <li class="nav-item" routerLinkActive="active">
-                <a [routerLink]="isAuthenticated ? ['/history'] : ['/history', 'guest']" class="nav-link waves-light" mdbWavesEffect>History</a>
+                <a [routerLink]="['/history', 'guest']" class="nav-link waves-light" mdbWavesEffect>History</a>
             </li>
         </ul>
         <ul class="navbar-nav navbar-right" *ngIf="checkAuthenticated()">
