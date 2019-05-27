@@ -14,6 +14,7 @@
             <li>{{ game.team1.name }} Win Ratio: {{ team1WinRatio }}</li>
             <li>{{ game.team2.name }} Total: {{ team2Totals }}</li>
             <li>{{ game.team2.name }} Win Ratio: {{ team2WinRatio }}</li>
+            <li>Played on: {{ game.datePlayed | date:'short' }}</li>
           </ul>
         </div>
       </div>

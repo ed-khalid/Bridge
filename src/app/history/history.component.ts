@@ -14,9 +14,11 @@ export class HistoryComponent implements OnInit, OnDestroy {
   constructor(private gameService: GameService) { }
   ngOnInit() {
     this.subscription = this.gameService.gamesChanged.subscribe((games: Game[]) => {
-      this.games = games;
+      this.games = games.sort((a: Game, b: Game) => new Date(b.datePlayed).getTime() - new Date(a.datePlayed).getTime());
     });
-    this.games = this.gameService.getGames();
+    this.games = this.gameService.getGames().sort(
+      (a: Game, b: Game) => new Date(b.datePlayed).getTime() - new Date(a.datePlayed).getTime()
+    );
   }
   ngOnDestroy() {
     // this.subscription.unsubscribe();
