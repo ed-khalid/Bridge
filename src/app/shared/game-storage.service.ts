@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { GameService } from './game.service';
 import { Subscription } from 'rxjs';
@@ -12,10 +12,19 @@ export class GameStorageService {
     constructor(private http: HttpClient, private gameService: GameService, private authService: AuthService) { }
     gamesSubscription: Subscription;
     currentGameSubscription: Subscription;
+    tokenSubscription: Subscription;
     uniqueId = '';
     currentGameId = '';
+
     init(uniqueId: string) {
         this.uniqueId = uniqueId;
+        this.tokenSubscription = this.authService.tokenChanged.subscribe((token) => {
+            console.log(token);
+            if (token) {
+                console.log('token changed!');
+                this.getGuestHistory();
+            }
+        });
         this.gamesSubscription = this.gameService.gamesChanged.subscribe((games: Game[]) => {
             this.http.post('https://bridge-s.firebaseio.com/guest-games/' + uniqueId + '.json', games[games.length - 1]).subscribe(
                 (res: Response) => {

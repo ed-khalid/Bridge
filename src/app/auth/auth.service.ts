@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase/app';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ export class AuthService {
   displayName = null;
   email = null;
   uid = null;
+  tokenChanged = new Subject<string>();
 
   constructor(private router: Router) { }
   createUser(name: string, email: string, password: string) {
@@ -74,11 +76,14 @@ export class AuthService {
           this.email = null;
           this.token = null;
           this.uid = null;
+          console.log('not logged in!');
         } else {
           currentUser.getIdToken().then((token: string) => this.token = token);
           this.displayName = currentUser.displayName;
           this.email = currentUser.email;
           this.uid = currentUser.uid;
+          this.tokenChanged.next(this.token);
+          console.log('logged in!');
         }
       }
     );
