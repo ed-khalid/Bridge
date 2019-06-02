@@ -6,7 +6,7 @@ export class GameService {
     gameChanged = new Subject<Game>();
     gamesChanged = new Subject<Game[]>();
     private games: Game[] = [];
-    private game: Game = new Game(new Team('Team 1', [], [], 0), new Team('Team 2', [], [], 0), 0);
+    private game: Game = new Game(new Team('Team 1', [], [], 0), new Team('Team 2', [], [], 0), 0, new Date(Date.now()));
 
     addScore(team1score: number, team2score: number) {
         this.game.team1.score.push(team1score);
@@ -182,6 +182,7 @@ export class GameService {
     }
     addGamePlayed(gamesPlayed: number) {
         this.game.gamesPlayed = gamesPlayed;
+        this.game.datePlayed = new Date(Date.now());
         this.gameChanged.next(this.game);
     }
     setTeamName(team: string, teamName: string) {
@@ -212,6 +213,7 @@ export class GameService {
         this.game.team2.score = [];
         this.game.team2.gamesWon = 0;
         this.game.gamesPlayed = 0;
+        this.game.datePlayed = new Date(Date.now());
         this.gameChanged.next(this.game);
     }
     getGames() {

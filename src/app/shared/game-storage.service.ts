@@ -1,20 +1,30 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { GameService } from './game.service';
 import { Subscription } from 'rxjs';
 import { Game } from './game.model';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class GameStorageService {
-    constructor(private http: HttpClient, private gameService: GameService) { }
+    constructor(private http: HttpClient, private gameService: GameService, private authService: AuthService) { }
     gamesSubscription: Subscription;
     currentGameSubscription: Subscription;
+    tokenSubscription: Subscription;
     uniqueId = '';
     currentGameId = '';
+
     init(uniqueId: string) {
         this.uniqueId = uniqueId;
+        this.tokenSubscription = this.authService.tokenChanged.subscribe((token) => {
+            console.log(token);
+            if (token) {
+                console.log('token changed!');
+                this.getGuestHistory();
+            }
+        });
         this.gamesSubscription = this.gameService.gamesChanged.subscribe((games: Game[]) => {
             this.http.post('https://bridge-s.firebaseio.com/guest-games/' + uniqueId + '.json', games[games.length - 1]).subscribe(
                 (res: Response) => {
@@ -41,14 +51,39 @@ export class GameStorageService {
                 (error) => console.log(error)
             );
         });
+        console.log('init');
     }
     getGuestHistory() {
-        this.http.get('https://bridge-s.firebaseio.com/guest-games/' + this.uniqueId + '.json').subscribe(
-            (games) => {
+        if (this.authService.isAuthenticated()) {
+            this.getHistory();
+        } else {
+            console.log('not authenticated!');
+            this.http.get('https://bridge-s.firebaseio.com/guest-games/' + this.uniqueId + '.json').subscribe(
+                (games) => {
+                    const newGames: Game[] = [];
+                    if (games) {
+                        Object.values(games).forEach((value: Game) => newGames.push(value));
+                        this.gameService.setGames(newGames);
+                    }
+                    return newGames;
+                },
+                (error) => console.log(error)
+            );
+        }
+    }
+    getHistory() {
+        this.http.get('https://bridge-s.firebaseio.com/guest-games.json?auth=' + this.authService.getToken()).subscribe(
+            (uniqueIds) => {
                 const newGames: Game[] = [];
-                if (games) {
-                    Object.values(games).forEach((value: Game) => newGames.push(value));
-                    this.gameService.setGames(newGames);
+                if (uniqueIds) {
+                    Object.values(uniqueIds).forEach((games) => {
+                        if (games) {
+                            Object.values(games).forEach((game: Game) => {
+                                newGames.push(game);
+                            });
+                            this.gameService.setGames(newGames);
+                        }
+                    });
                 }
                 return newGames;
             },
