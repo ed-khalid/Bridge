@@ -5,9 +5,9 @@
         <h4 class="modal-title w-100 text-center">Teams Names <span><img src="../../../assets/spades.png" class="img-fluid" style="height: 32px; width: 32px;" alt="Spades"></span></h4>
       </div>
       <div class="modal-body justify-content-center input-group">
-        <input mdbInput type="text" class="text-center m-auto" placeholder="Team1 Name" #team1NameInput>
+        <input mdbInput type="text" class="text-center m-auto" (keyup.enter)="setTeamsNames(namesModal, team1NameInput.value, team2NameInput.value)" placeholder="Team1 Name" #team1NameInput>
         <br>
-        <input mdbInput type="text" class="text-center m-auto" placeholder="Team2 Name" #team2NameInput>
+        <input mdbInput type="text" class="text-center m-auto" (keyup.enter)="setTeamsNames(namesModal, team1NameInput.value, team2NameInput.value)" placeholder="Team2 Name" #team2NameInput>
       </div>
       <div class="modal-footer justify-content-center">
         <button type="button" mdbBtn color="secondary" class="waves-light" aria-label="Close" (click)="namesModal.hide()" mdbWavesEffect>Close</button>
