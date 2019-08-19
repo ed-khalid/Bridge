@@ -10,26 +10,26 @@ export class GameService {
 
     addScore(team1score: number, team2score: number) {
         this.game.team1.score.push(team1score);
-        let t1GameWonScore = 0;
-        let t1GamesWon = 0;
-        for (const num of this.game.team1.score) {
-            t1GameWonScore = t1GameWonScore + num;
-            if (t1GameWonScore >= 100) {
-                t1GameWonScore = 0;
-                t1GamesWon++;
-            }
-        }
-        this.game.team1.gamesWon = t1GamesWon;
         this.game.team2.score.push(team2score);
-        let t2GameWonScore = 0;
+        // games won check
+        let team1winScore = 0;
+        let team2winScore = 0;
+        let t1GamesWon = 0;
         let t2GamesWon = 0;
-        for (const num of this.game.team2.score) {
-            t2GameWonScore = t2GameWonScore + num;
-            if (t2GameWonScore >= 100) {
-                t2GameWonScore = 0;
-                t2GamesWon++;
+        this.game.team1.score.forEach((score, index) => {
+            team1winScore += score;
+            team2winScore += this.game.team2.score[index];
+            if (team1winScore >= 100) {
+                t1GamesWon += 1;
+                team1winScore = 0;
+                team2winScore = 0;
+            } else if (team2winScore >= 100) {
+                t2GamesWon += 1;
+                team1winScore = 0;
+                team2winScore = 0;
             }
-        }
+        });
+        this.game.team1.gamesWon = t1GamesWon;
         this.game.team2.gamesWon = t2GamesWon;
         this.gameChanged.next(this.game);
     }
@@ -85,15 +85,19 @@ export class GameService {
                 bonus = 100 + 50; // double bonus 50
             }
             if (double === false) {
-                if (suit === 'nt') {
-                    bonus = ((wonStrikes - bet) * 30);
-                }
-                if (suit === 'spades' || suit === 'hearts') {
+                if (suit === 'nt' || suit === 'spades' || suit === 'hearts') {
                     bonus = ((wonStrikes - bet) * 30);
                 }
                 if (suit === 'clubs' || suit === 'diamonds') {
                     bonus = ((wonStrikes - bet) * 20);
                 }
+            }
+        } else {
+            if (doubleDouble) {
+                bonus = 100;
+            }
+            if (double) {
+                bonus = 50;
             }
         }
         // adding scores and bonuses
@@ -244,20 +248,16 @@ export class GameService {
         let team2Total = 0;
         let team1Score = 0;
         let team2Score = 0;
-        for (const num of this.game.team1.bonus) {
-            team1Total = team1Total + num;
-        }
-        for (const num of this.game.team1.score) {
-            team1Total = team1Total + num;
-            team1Score = team1Score + num;
-        }
-        for (const num of this.game.team2.bonus) {
-            team2Total = team2Total + num;
-        }
-        for (const num of this.game.team2.score) {
-            team2Total = team2Total + num;
-            team2Score = team2Score + num;
-        }
+        this.game.team1.bonus.forEach((bonus) => team1Total += bonus);
+        this.game.team1.score.forEach((game) => {
+            team1Total += game;
+            team1Score += game;
+        });
+        this.game.team2.bonus.forEach((bonus) => team2Total += bonus);
+        this.game.team2.score.forEach((game) => {
+            team2Total += game;
+            team2Score += game;
+        });
         return {team1: team1Total, team2: team2Total, t1Score: team1Score, t2Score: team2Score};
     }
     // totalsOfGame(game: Game) {
