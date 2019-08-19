@@ -230,14 +230,12 @@ export class GameService {
     }
     isDanger(team: string) {
         if (team === 'team1') {
-            const t1Score = this.total().t1Score;
-            if (t1Score >= 100) {
+            if (this.game.team1.gamesWon > 0) {
                 return true;
             }
         }
         if (team === 'team2') {
-            const t2Score = this.total().t2Score;
-            if (t2Score >= 100) {
+            if (this.game.team2.gamesWon > 0) {
                 return true;
             }
         }
