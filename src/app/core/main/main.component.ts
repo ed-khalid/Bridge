@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Game } from '../../shared/game.model';
-import { GameService } from '../../shared/game.service';
+import { Game } from '../../shared/game.model'; import { GameService } from '../../shared/game.service';
 import { Subscription } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { MDBModalRef } from 'angular-bootstrap-md';

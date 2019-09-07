@@ -21,12 +21,16 @@ import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { AuthService } from './auth/auth.service';
 import { Ng5SliderModule } from 'ng5-slider';
+import { GameComponent } from './core/game/game.component';
+import { HomeComponent } from './core/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
+    HomeComponent,
     MainComponent,
+    GameComponent,
     HistoryComponent,
     GameItemComponent,
     LoginComponent,

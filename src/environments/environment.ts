@@ -6,10 +6,10 @@ export const environment = {
   production: false,
   firebaseConfig: {
     apiKey: 'AIzaSyAKOUg01cq5P8aGAZ-7eZnA9ilHPCNYYsc',
-    authDomain: 'bridge-s.firebaseapp.com',
-    databaseURL: 'https://bridge-s.firebaseio.com',
-    projectId: 'bridge-s',
-    storageBucket: 'bridge-s.appspot.com',
+    authDomain: 'bridgescore-3f864.firebaseapp.com',
+    databaseURL: 'https://bridgescore-3f864.firebaseio.com',
+    projectId: 'bridgescore-3f864',
+    storageBucket: 'bridgescore-3f864.appspot.com',
     messagingSenderId: '493134772433'
   }
 };

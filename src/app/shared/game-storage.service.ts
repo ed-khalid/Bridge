@@ -9,12 +9,15 @@ import { AuthService } from '../auth/auth.service';
     providedIn: 'root'
 })
 export class GameStorageService {
-    constructor(private http: HttpClient, private gameService: GameService, private authService: AuthService) { }
+
     gamesSubscription: Subscription;
     currentGameSubscription: Subscription;
     tokenSubscription: Subscription;
     uniqueId = '';
     currentGameId = '';
+
+    constructor(private http: HttpClient, private gameService: GameService, private authService: AuthService) { }
+
 
     init(uniqueId: string) {
         this.uniqueId = uniqueId;

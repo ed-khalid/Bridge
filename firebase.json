@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/BridgeStats",
+    "public": "dist",
     "ignore": [
       "firebase.json",
       "**/.*",
