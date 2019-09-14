@@ -16,14 +16,14 @@
                     </ul>
                 </div>
             </div>
-        <div class="row grid">
-            <div *ngFor="let team of [team1,team2]; let i=index" class="col grid-cell">
-                <label> Team {{  i + 1  }} </label>
-                <ul *ngFor="let player of team.players ">
-                    <li>{{ player?.name }} <span (click)="removePlayer(player,team)">REMOVE</span>  </li>
-                </ul>
-            </div>
         </div>
+    </div>
+    <div class="row grid">
+        <div *ngFor="let team of [team1,team2]; let i=index" class="col grid-cell">
+            <label> Team {{  i + 1  }} </label>
+            <ul *ngFor="let player of team.players ">
+                <li>{{ player?.name }} <span (click)="removePlayer(player,team)">REMOVE</span>  </li>
+            </ul>
         </div>
     </div>
     <div *ngIf="areTeamsFull()" class="row">

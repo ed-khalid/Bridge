@@ -2,7 +2,8 @@
 
 .grid-cell {
     border: 1px solid black;
-    height: 100px; 
+    width:50%;
+    height: 200px;
     label {
         font-weight: bold;
     }
@@ -12,10 +13,11 @@
 div.player-list {
     ul {
         list-style: none;
+        padding: 0;
         li {
             display: inline-block;
             width: 75px;
-            border: 1px solid black;
+            border: 0.5px solid  black;
             margin: 0;
             padding-left:2px;
             padding-right:2px;
