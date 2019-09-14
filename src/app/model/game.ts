@@ -1,5 +1,5 @@
-import { Team } from 'src/app/shared/team.model';
 import { Round } from './round';
+import { Team } from './team';
 
 
 

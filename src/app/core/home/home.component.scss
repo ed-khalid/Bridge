@@ -4,6 +4,13 @@
     border: 1px solid black;
     width:50%;
     height: 200px;
+    ul {
+        list-style: none;
+        padding: 0;
+        li {
+            margin: 0;
+        }
+    }
     label {
         font-weight: bold;
     }

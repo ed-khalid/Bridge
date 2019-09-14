@@ -21,13 +21,13 @@
     <div class="row grid">
         <div *ngFor="let team of [team1,team2]; let i=index" class="col grid-cell">
             <label> Team {{  i + 1  }} </label>
-            <ul *ngFor="let player of team.players ">
-                <li>{{ player?.name }} <span (click)="removePlayer(player,team)">REMOVE</span>  </li>
+            <ul>
+                <li *ngFor="let player of team.players">{{ player?.name }} <span><button  class="btn" (click)="removePlayer(player,team)"> REMOVE</button></span>  </li>
             </ul>
         </div>
     </div>
     <div *ngIf="areTeamsFull()" class="row">
-        <button class="btn btn-primary">Start</button>
+        <button (click)="startGame()" class="btn btn-primary">Start</button>
     </div>
 
 </div>
