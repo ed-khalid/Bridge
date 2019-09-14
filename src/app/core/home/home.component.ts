@@ -67,5 +67,9 @@ export class HomeComponent {
         this.showSelectPlayers = true;
     }
 
+    public areTeamsFull() {
+        return this.team1.players.concat(this.team2.players).length === 4;
+    }
+
 }
 

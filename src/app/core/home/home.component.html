@@ -12,7 +12,7 @@
                 <div class="col big-box player-list">
                     Select Players:
                     <ul>
-                        <li [class.blue]="team2.players.includes(player)" [class.red]="team1.players.includes(player)" (click)="addToTeam(player)" *ngFor="let player of players$ | async "> {{ player.name }} </li>
+                        <li class="btn" [class.green]="team2.players.includes(player)" [class.red]="team1.players.includes(player)" (click)="addToTeam(player)" *ngFor="let player of players$ | async "> {{ player.name }} </li>
                     </ul>
                 </div>
             </div>
@@ -25,6 +25,9 @@
             </div>
         </div>
         </div>
+    </div>
+    <div *ngIf="areTeamsFull()" class="row">
+        <button class="btn btn-primary">Start</button>
     </div>
 
 </div>

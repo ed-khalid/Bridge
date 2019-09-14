@@ -20,12 +20,10 @@ div.player-list {
             padding-left:2px;
             padding-right:2px;
 
-            &.red  {
-                background-color: red;
+            &.red {
                 color: white;
             }
-            &.blue  {
-                background-color: blue;
+            &.green {
                 color: white;
             }
         }
