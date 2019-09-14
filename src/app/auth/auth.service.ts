@@ -14,6 +14,7 @@ export class AuthService {
   tokenChanged = new Subject<string>();
 
   constructor(private router: Router) { }
+
   createUser(name: string, email: string, password: string) {
     firebase.auth().createUserWithEmailAndPassword(email, password).then(
       (res) => {
@@ -35,6 +36,7 @@ export class AuthService {
       (reason) => console.log(reason)
     );
   }
+
   loginUser(email: string, pwd: string) {
     firebase.auth().signInWithEmailAndPassword(email, pwd).then(
       () => {
@@ -50,15 +52,18 @@ export class AuthService {
       (reason) => console.log(reason)
     );
   }
+
   getToken() {
     firebase.auth().currentUser.getIdToken().then(
       (token: string) => this.token = token
     );
     return this.token;
   }
+
   isAuthenticated() {
     return this.token != null;
   }
+
   logout() {
     firebase.auth().signOut();
     this.token = null;
@@ -67,6 +72,7 @@ export class AuthService {
     this.uid = null;
     this.router.navigate(['/']);
   }
+
   loadUser() {
     firebase.auth().onAuthStateChanged(
       (currentUser) => {
