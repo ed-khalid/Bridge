@@ -19,6 +19,15 @@ div.player-list {
             margin: 0;
             padding-left:2px;
             padding-right:2px;
+
+            &.red  {
+                background-color: red;
+                color: white;
+            }
+            &.blue  {
+                background-color: blue;
+                color: white;
+            }
         }
     }
 
