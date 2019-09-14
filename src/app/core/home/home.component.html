@@ -6,10 +6,25 @@
         </div>
     </div>
 
-    <div class="row" *ngIf="showSelectPlayers" id="showPlayersDiv" >
-        Select Players:
-
-
+    <div class="row" id="showPlayersDiv" >
+        <div class="col">
+            <div class="row">
+                <div class="col big-box player-list">
+                    Select Players:
+                    <ul>
+                        <li *ngFor="let p of players$ | async "> {{ p.name }} </li>
+                    </ul>
+                </div>
+            </div>
+        <div class="row grid">
+            <div class="col grid-cell">
+                    <label>Team 1</label>
+            </div>
+            <div class="col grid-cell">
+                    <label>Team 2</label>
+            </div>
+        </div>
+        </div>
     </div>
 
 </div>

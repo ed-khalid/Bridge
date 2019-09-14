@@ -18,19 +18,19 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public players:Observable<any>;
 
-  constructor(private gameStorage: GameStorageService, private authService: AuthService, private db:AngularFirestore) {}
+  constructor(private authService: AuthService, private db:AngularFirestore) {}
 
   ngOnInit() {
     this.uniqueId = this.generateId();
     console.log(this.uniqueId);
-    this.gameStorage.init(this.uniqueId);
+    // this.gameStorage.init(this.uniqueId);
     // firebase.initializeApp(environment.firebaseConfig);
     this.authService.loadUser();
     this.players = this.db.collection('players').valueChanges();
   }
 
   ngOnDestroy() {
-    this.gameStorage.destroy();
+    // this.gameStorage.destroy();
   }
 
   generateId() {

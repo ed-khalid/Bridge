@@ -1,4 +1,29 @@
 
+
+.grid-cell {
+    border: 1px solid black;
+    height: 100px; 
+    label {
+        font-weight: bold;
+    }
+
+}
+
+div.player-list {
+    ul {
+        list-style: none;
+        li {
+            display: inline-block;
+            width: 75px;
+            border: 1px solid black;
+            margin: 0;
+            padding-left:2px;
+            padding-right:2px;
+        }
+    }
+
+}
+
 .row {
     justify-content: center;
     text-align: center;
