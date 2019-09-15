@@ -7,6 +7,7 @@ export class Player {
         this.name = name;
     }
 
+    public id?:string;
     public name: string;
 
     // stats

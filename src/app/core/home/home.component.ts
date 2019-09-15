@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, QueryDocumentSnapshot, QuerySnapshot } from '@angular/fire/firestore';
 import { Player } from 'src/app/model/player';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Team } from 'src/app/model/team';
-import { Game } from 'src/app/model/game';
 
 
 
@@ -16,9 +15,6 @@ import { Game } from 'src/app/model/game';
 export class HomeComponent {
 
     public players$:Observable<Player[]>;
-    public playersRef:AngularFirestoreCollection; 
-    public playerRefs:any[];
-    public showSelectPlayers:Boolean = false;
 
     public team1:Team = new Team();
     public team2:Team = new Team();
@@ -29,11 +25,7 @@ export class HomeComponent {
     }
 
     ngOnInit() {
-        this.playersRef = this.db.collection<Player>('players');
-        this.players$ = this.db.collection<Player>('players').valueChanges()
-        this.playersRef.snapshotChanges().pipe(map(actions => 
-          actions.map(action => ({ id: action.payload.doc.id  , ...action.payload.doc.data() }) )
-        )).subscribe( players => this.playerRefs = players )
+        this.players$ = this.db.collection<Player>('players').valueChanges({idField: 'id' })
     }
 
 
@@ -74,37 +66,51 @@ export class HomeComponent {
         return this.team1.players.concat(this.team2.players).length === 4;
     }
 
+
+    public createGame(team1:Team, team2:Team) {
+        return this.db.collection('games').add({ team1 , team2  })
+    }
+
     public startGame() {
 
-        this.getTeam(this.team1);
-
-        // const game:Game = new Game(this.team1, this.team2);
-        // const _game = JSON.parse(JSON.stringify(game));
-        // this.db.collection<Game>('games').add(_game).then(done => {
-        //     console.log('Game added!');
-        // });
+        this.getTeam(this.team1).subscribe(team1 => {
+            console.log(team1);
+            this.getTeam(this.team2).subscribe(team2 => {
+                this.createGame(team1, team2).then(gameCreated => {
+                    console.log(gameCreated);
+                });
+            })
+        });
     }
 
 
-    public getTeam(team:Team)  {
-
-
+    public getTeam(team:Team) : Observable<Team>  {
 
         // order team players alphabetically
         const sorted =  Object.assign([],team.players).sort((a,b) => a.name.localeCompare(b.name))
         const player1 = sorted[0];
         const player2 = sorted[1];
-        const p1  = this.playerRefs.find(it => it.name === player1.name );
-        const p2 = this.playerRefs.find(it => it.name === player2.name );
 
-        const p1Ref = this.playersRef.doc(p1.id);
-        const p2Ref = this.playersRef.doc(p2.id);
+        const p1Ref = this.db.doc(`players/${player1.id}`).ref; 
+        const p2Ref = this.db.doc(`players/${player2.id}`).ref; 
 
-        const ref = this.db.collection('teams').ref
-        ref.where('player1', '==', p1Ref )
-        ref.where('player2', '==', p2Ref).get().then(result => {
-            console.log(result);
-        });
+        return this.db.collection<Team>('teams',  
+               q => q.where('player1', '==', p1Ref
+                    ).where('player2', '==', p2Ref) 
+               )
+               .get().pipe(map((result:QuerySnapshot<Team>) => {
+                    if(result.docs.length) {
+                        return new Team(result.docs[0]); 
+                    } else {
+                    this.db.collection('teams').add({
+                        player1: p1Ref 
+                        ,player2: p2Ref
+                    }).then(newTeam => {
+                        return of(newTeam);
+                    })
+                }
+            }
+        ))
 
     }
 

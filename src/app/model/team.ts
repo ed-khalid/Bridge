@@ -1,10 +1,23 @@
 import { Player } from './player';
+import { QueryDocumentSnapshot } from '@angular/fire/firestore';
 
 
 export class Team {
 
     public player1:Player;
     public player2:Player;
+    public afs:QueryDocumentSnapshot<Team>; 
+
+
+    constructor(afs?:QueryDocumentSnapshot<Team>) {
+        if (afs) {
+            this.afs = afs;
+            const team = this.afs.data();
+            this.player1 = team.player1; 
+            this.player2 = team.player2; 
+        }
+    }
+    
 
 
     get players(): Player[] {

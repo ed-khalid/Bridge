@@ -22,7 +22,11 @@
         <div *ngFor="let team of [team1,team2]; let i=index" class="col grid-cell">
             <label> Team {{  i + 1  }} </label>
             <ul>
-                <li *ngFor="let player of team.players">{{ player?.name }} <span><button  class="btn" (click)="removePlayer(player,team)"> REMOVE</button></span>  </li>
+                <li *ngFor="let player of team.players">{{ player?.name }} 
+                    {{ player?.id }}
+                    <span><button  class="btn" (click)="removePlayer(player,team)"> REMOVE</button>
+                    </span>  
+                </li>
             </ul>
         </div>
     </div>
